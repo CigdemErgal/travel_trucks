@@ -1,0 +1,12 @@
+.catalog-layout {
+  display: flex;
+  gap: 65px;
+  margin-top: 48px;
+  background-color: var(--color-filter-bg);
+}
+
+.catalog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}

@@ -1,0 +1,10 @@
+.filters-panel {
+  width: 360px;
+  padding: 24px;
+
+  border-radius: 20px;
+  background-color: var(--color-filter-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
