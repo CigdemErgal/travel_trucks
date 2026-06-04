@@ -24,7 +24,7 @@ function CatalogPage() {
         <FiltersPanel />
         <div className="catalog-content">
           {loading && <p>Loading...</p>}
-          {!loading && <p>Camper count: {campers.length}</p>}
+
           {!loading &&
             campers.map((camper) => (
               <CamperCard
