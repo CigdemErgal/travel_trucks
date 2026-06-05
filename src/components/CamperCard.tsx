@@ -16,7 +16,7 @@ type CamperCardProps = {
 function CamperCard({ name, price, location, id, imageUrl }: CamperCardProps) {
   return (
     <article className="camper-card">
-      <img src={imageUrl} alt={name} />
+      <img className="camper-card-image" src={imageUrl} alt={name} />
       <div className="camper-card-content">
         <div className="camper-card-header">
           <p>{name}</p>

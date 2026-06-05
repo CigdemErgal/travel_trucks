@@ -4,6 +4,9 @@ interface CamperImage {
 }
 
 export interface Camper {
+  form: string;
+  engine: string;
+  transmission: string;
   id: string;
   name: string;
   price: number;
@@ -14,3 +17,9 @@ export interface Camper {
 export interface CampersResponse {
   items: Camper[];
 }
+export type CamperFilters = {
+  location: string;
+  form: string;
+  engine: string;
+  transmission: string;
+};

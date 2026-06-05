@@ -2,11 +2,40 @@
   display: flex;
   gap: 65px;
   margin-top: 48px;
-  background-color: var(--color-filter-bg);
+  background-color: var(--color-white);
 }
 
 .catalog-content {
   display: flex;
   flex-direction: column;
   gap: 32px;
+}
+.load-more-button {
+  width: 145px;
+  height: 56px;
+  border: 1px solid var(--color-light-gray);
+  border-radius: 200px;
+  background-color: var(--color-white);
+  margin: 0 auto;
+  margin-top: -28px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.load-more-button:hover {
+  background-color: var(--color-filter-bg);
+  border-color: var(--color-hero-button-hover);
+}
+@media (max-width: 768px) {
+  .catalog-layout {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .filters-panel {
+    width: 100%;
+  }
 }

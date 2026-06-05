@@ -5,7 +5,7 @@
   border-radius: 16px;
   background-color: var(--color-inputs);
 }
-.camper-card img {
+.camper-card-image {
   width: 219px;
   height: 240px;
   object-fit: cover;
@@ -69,6 +69,7 @@
 }
 .camper-card-badges {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 .camper-card-badges span {
@@ -99,7 +100,32 @@
   background-color: var(--color-hero-button);
   color: var(--color-white);
   text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 .camper-card-link:hover {
   background-color: var(--color-hero-button-hover);
+}
+
+@media (max-width: 768px) {
+  .camper-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .camper-card-image {
+    width: 100%;
+    height: auto;
+  }
+  .camper-card-content {
+    width: calc(100% - 48px);
+    gap: 12px;
+  }
+  .camper-card-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
 }
