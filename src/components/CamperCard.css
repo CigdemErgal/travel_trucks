@@ -108,6 +108,26 @@
   background-color: var(--color-hero-button-hover);
 }
 
+.camper-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.camper-card-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-main);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.camper-card-rating img {
+  width: 16px;
+  height: 16px;
+}
+
 @media (max-width: 768px) {
   .camper-card {
     flex-direction: column;

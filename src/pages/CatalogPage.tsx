@@ -72,6 +72,8 @@ function CatalogPage() {
                   location={camper.location}
                   id={camper.id}
                   imageUrl={camper.gallery[0].thumb}
+                  rating={camper.rating}
+                  reviewsCount={camper.reviews.length}
                 />
               ))}
           {!loading && visibleCount < filteredCampers.length && (
