@@ -5,6 +5,7 @@ import { fetchCamperById } from "../services/campersApi";
 import type { Camper } from "../types/camper";
 import starIcon from "../assets/yellow-star-icon.svg";
 import mapIcon from "../assets/light-map-icon.svg";
+import grayStarIcon from "../assets/gray-star-icon.svg";
 import "./CamperDetailsPage.css";
 
 function CamperDetailsPage() {
@@ -39,31 +40,7 @@ function CamperDetailsPage() {
                   <img key={index} src={image.thumb} alt={camper.name} />
                 ))}
               </div>
-
-              <section className="details-reviews">
-                <h2>Reviews</h2>
-
-                <div className="reviews-list">
-                  {camper.reviews.map((review) => (
-                    <article className="review-card" key={review.reviewer_name}>
-                      <div className="review-header">
-                        <div className="review-avatar">
-                          {review.reviewer_name.charAt(0).toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="review-name">{review.reviewer_name}</p>
-                          <p className="review-rating">
-                            {review.reviewer_rating}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="review-comment">{review.comment}</p>
-                    </article>
-                  ))}
-                </div>
-              </section>
             </div>
-
             <aside className="details-sidebar">
               <section className="details-summary">
                 <h1>{camper.name}</h1>
@@ -122,25 +99,62 @@ function CamperDetailsPage() {
                   </li>
                 </ul>
               </section>
-
-              <section className="details-booking">
-                <h2>Book your campervan now</h2>
-                <p> Stay connected! We are always ready to help you.</p>
-
-                <form
-                  className="booking-form"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    alert("Booking request sent successfully!");
-                  }}
-                >
-                  <input type="text" name="name" placeholder="Name*" required />
-                  <input type="email" name="email" placeholder="Email*" required />
-                  <button type="submit">Send</button>
-                </form>
-              </section>
             </aside>
           </section>
+          <h2 className="details-reviews-title">Reviews</h2>
+          <div className="details-bottom">
+            <section className="details-reviews">
+              <div className="reviews-list">
+                {camper.reviews.map((review) => (
+                  <article className="review-card" key={review.reviewer_name}>
+                    <div className="review-header">
+                      <div className="review-avatar">
+                        {review.reviewer_name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="review-user-info">
+                        <p className="review-name">{review.reviewer_name}</p>
+                        <div className="review-rating">
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <img
+                              key={index}
+                              src={
+                                index < review.reviewer_rating
+                                  ? starIcon
+                                  : grayStarIcon
+                              }
+                              alt="Star Icon"
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="review-comment">{review.comment}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+            <section className="details-booking">
+              <h2>Book your campervan now</h2>
+              <p> Stay connected! We are always ready to help you.</p>
+
+              <form
+                className="booking-form"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  alert("Booking request sent successfully!");
+                }}
+              >
+                <input type="text" name="name" placeholder="Name*" required />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email*"
+                  required
+                />
+                <button type="submit">Send</button>
+              </form>
+            </section>
+          </div>
         </main>
       )}
     </>

@@ -1,6 +1,6 @@
 .catalog-layout {
   display: flex;
-  gap: 65px;
+  gap: 0 65px;
   margin-top: 48px;
   background-color: var(--color-white);
 }
