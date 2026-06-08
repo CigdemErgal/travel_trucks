@@ -46,4 +46,13 @@ export type CamperFilters = {
   form: string;
   engine: string;
   transmission: string;
+  AC: boolean;
+  bathroom: boolean;
+  kitchen: boolean;
+  TV: boolean;
+  radio: boolean;
+  refrigerator: boolean;
+  microwave: boolean;
+  gas: boolean;
+  water: boolean;
 };

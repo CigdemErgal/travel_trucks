@@ -5,7 +5,7 @@ import type { CamperFilters } from "../types/camper";
 
 type FiltersPanelProps = {
   filters: CamperFilters;
-  setFilters: React.Dispatch<React.SetStateAction<CamperFilters>>;
+  setFilters: (filters: CamperFilters) => void;
   onSearch: () => void;
   onClear: () => void;
 };
@@ -144,6 +144,103 @@ function FiltersPanel({
               }
             />
             Manual
+          </label>
+        </div>
+        <div className="filters-group">
+          <p className="filters-label">Vehicle equipment</p>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.AC}
+              onChange={(e) => setFilters({ ...filters, AC: e.target.checked })}
+            />
+            AC
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.bathroom}
+              onChange={(e) =>
+                setFilters({ ...filters, bathroom: e.target.checked })
+              }
+            />
+            Bathroom
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.kitchen}
+              onChange={(e) =>
+                setFilters({ ...filters, kitchen: e.target.checked })
+              }
+            />
+            Kitchen
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.TV}
+              onChange={(e) => setFilters({ ...filters, TV: e.target.checked })}
+            />
+            TV
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.radio}
+              onChange={(e) =>
+                setFilters({ ...filters, radio: e.target.checked })
+              }
+            />
+            Radio
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.refrigerator}
+              onChange={(e) =>
+                setFilters({ ...filters, refrigerator: e.target.checked })
+              }
+            />
+            Refrigerator
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.microwave}
+              onChange={(e) =>
+                setFilters({ ...filters, microwave: e.target.checked })
+              }
+            />
+            Microwave
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.gas}
+              onChange={(e) =>
+                setFilters({ ...filters, gas: e.target.checked })
+              }
+            />
+            Gas
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={filters.water}
+              onChange={(e) =>
+                setFilters({ ...filters, water: e.target.checked })
+              }
+            />
+            Water
           </label>
         </div>
       </div>

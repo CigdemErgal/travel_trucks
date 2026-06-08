@@ -14,6 +14,21 @@ type CamperCardProps = {
   imageUrl: string;
   rating: number;
   reviewsCount: number;
+  description: string;
+  transmission: string;
+  engine: string;
+  form: string;
+  AC: boolean;
+  bathroom: boolean;
+  kitchen: boolean;
+  TV: boolean;
+  radio: boolean;
+  refrigerator: boolean;
+  microwave: boolean;
+  gas: boolean;
+  water: boolean;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 };
 
 function CamperCard({
@@ -24,6 +39,21 @@ function CamperCard({
   imageUrl,
   rating,
   reviewsCount,
+  description,
+  transmission,
+  engine,
+  form,
+  AC,
+  bathroom,
+  kitchen,
+  TV,
+  radio,
+  refrigerator,
+  microwave,
+  gas,
+  water,
+  isFavorite,
+  onToggleFavorite,
 }: CamperCardProps) {
   return (
     <article className="camper-card">
@@ -31,7 +61,17 @@ function CamperCard({
       <div className="camper-card-content">
         <div className="camper-card-header">
           <p>{name}</p>
-          <p className="camper-card-price">${price}</p>
+          <div className="camper-card-header-actions">
+            <p className="camper-card-price">${price.toFixed(2)}</p>
+            <button 
+              className={`camper-card-favorite ${isFavorite ? "is-active" : ""}`}
+              type="button"
+              onClick={onToggleFavorite}
+            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            &hearts;
+          </button>
+        </div>
         </div>
         <div className="camper-card-meta">
           <div className="camper-card-rating">
@@ -48,21 +88,34 @@ function CamperCard({
         </div>
 
         <p className="camper-card-description">
-          The pictures shown here are example vehicles
+          {description}
         </p>
 
         <div className="camper-card-badges">
           <span>
-            <img src={petrolIcon} alt="Petrol Icon" /> Petrol
+            <img src={petrolIcon} alt="" /> {engine}
           </span>
           <span>
-            <img src={automaticIcon} alt="Automatic Icon" /> Automatic
+            <img src={automaticIcon} alt="" /> {transmission}
           </span>
           <span>
-            <img src={alcoveIcon} alt="Alcove Icon" /> Alcove
+            <img src={alcoveIcon} alt="" /> {form}
+            
           </span>
+          {AC && <span>AC</span>}
+          {bathroom && <span>Bathroom</span>}
+          {kitchen && <span>Kitchen</span>}
+          {TV && <span>TV</span>}
+          {radio && <span>Radio</span>}
+          {refrigerator && <span>Refrigerator</span>}
+          {microwave && <span>Microwave</span>}
+          {gas && <span>Gas</span>}
+          {water && <span>Water</span>}
         </div>
-        <Link className="camper-card-link" to={`/catalog/${id}`}>
+        <Link className="camper-card-link" 
+        to={`/catalog/${id}`}
+        target="_blank"
+        rel="noopener noreferrer">
           Show More
         </Link>
       </div>

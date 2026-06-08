@@ -128,6 +128,35 @@
   height: 16px;
 }
 
+.camper-card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.camper-card-favorite {
+  width: 60px;
+  height: 60px;
+  border: none;
+  background-color: transparent;
+  color: var(--color-main);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.camper-card-favorite:hover,
+.camper-card-favorite.is-active {
+  color: var(--color-button);
+}
+
+.camper-card-favorite:hover {
+  transform: scale(1.08);
+}
+
 @media (max-width: 768px) {
   .camper-card {
     flex-direction: column;

@@ -1,51 +1,55 @@
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { fetchCampers } from "../services/campersApi";
+import { useDispatch, useSelector } from "react-redux";
 import CamperCard from "../components/CamperCard";
-import type { Camper, CamperFilters } from "../types/camper";
 import FiltersPanel from "../components/FiltersPanel";
+import {
+  clearFilters,
+  fetchCampersThunk,
+  setFilters,
+  toggleFavorite,
+} from "../redux/campersSlice";
+import type { AppDispatch, RootState } from "../redux/store";
 import "./CatalogPage.css";
 
 function CatalogPage() {
-  const [campers, setCampers] = useState<Camper[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filteredCampers, setFilteredCampers] = useState<Camper[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { items, loading, error, filters, favorites } = useSelector(
+    (state: RootState) => state.campers,
+  );
+
   const [visibleCount, setVisibleCount] = useState(4);
-  const initialFilters: CamperFilters = {
-    location: "",
-    form: "",
-    engine: "",
-    transmission: "",
-  };
-  const [filters, setFilters] = useState<CamperFilters>(initialFilters);
 
   useEffect(() => {
-    fetchCampers().then((data) => {
-      setCampers(data);
-      setFilteredCampers(data);
-      setLoading(false);
-    });
-  }, []);
+    dispatch(fetchCampersThunk(filters));
+  }, [dispatch]);
 
   const handleSearch = () => {
-    const result = campers.filter(
-      (camper) =>
-        camper.location
-          .toLowerCase()
-          .includes(filters.location.toLowerCase()) &&
-        (filters.form === "" || camper.form.includes(filters.form)) &&
-        (filters.engine === "" || camper.engine.includes(filters.engine)) &&
-        (filters.transmission === "" ||
-          camper.transmission.includes(filters.transmission)),
-    );
-    setFilteredCampers(result);
     setVisibleCount(4);
+    dispatch(fetchCampersThunk(filters));
   };
 
   const handleClearFilters = () => {
-    setFilters(initialFilters);
-    setFilteredCampers(campers);
+    dispatch(clearFilters());
     setVisibleCount(4);
+    dispatch(
+      fetchCampersThunk({
+        location: "",
+        form: "",
+        engine: "",
+        transmission: "",
+        AC: false,
+        bathroom: false,
+        kitchen: false,
+        TV: false,
+        radio: false,
+        refrigerator: false,
+        microwave: false,
+        gas: false,
+        water: false,
+      }),
+    );
   };
 
   return (
@@ -54,15 +58,16 @@ function CatalogPage() {
       <section className="catalog-layout">
         <FiltersPanel
           filters={filters}
-          setFilters={setFilters}
+          setFilters={(newFilters) => dispatch(setFilters(newFilters))}
           onSearch={handleSearch}
           onClear={handleClearFilters}
         />
         <div className="catalog-content">
           {loading && <p>Loading...</p>}
+          {error && <p className="catalog-error">{error}</p>}
 
           {!loading &&
-            filteredCampers
+            items
               .slice(0, visibleCount)
               .map((camper) => (
                 <CamperCard
@@ -74,9 +79,24 @@ function CatalogPage() {
                   imageUrl={camper.gallery[0].thumb}
                   rating={camper.rating}
                   reviewsCount={camper.reviews.length}
+                  description={camper.description}
+                  transmission={camper.transmission}
+                  engine={camper.engine}
+                  form={camper.form}
+                  AC={camper.AC}
+                  bathroom={camper.bathroom}
+                  kitchen={camper.kitchen}
+                  TV={camper.TV}
+                  radio={camper.radio}
+                  refrigerator={camper.refrigerator}
+                  microwave={camper.microwave}
+                  gas={camper.gas}
+                  water={camper.water}
+                  isFavorite={favorites.includes(camper.id)}
+                  onToggleFavorite={() => dispatch(toggleFavorite(camper.id))}
                 />
               ))}
-          {!loading && visibleCount < filteredCampers.length && (
+          {!loading && visibleCount < items.length && (
             <button
               className="load-more-button"
               onClick={() => setVisibleCount((prev) => prev + 4)}
