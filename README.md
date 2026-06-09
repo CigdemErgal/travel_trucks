@@ -42,4 +42,4 @@ npm run dev
 
 ## Author
 
-Developed by the Travel Trucks project author.
+Developed by the Travel Trucks project Çiğdem ERGAL.
