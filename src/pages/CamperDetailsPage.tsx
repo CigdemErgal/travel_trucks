@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchCamperById } from "../services/campersApi";
 import type { Camper } from "../types/camper";
@@ -12,6 +12,7 @@ function CamperDetailsPage() {
   const { id } = useParams();
   const [camper, setCamper] = useState<Camper | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   useEffect(() => {
     if (!id) return;
 
@@ -28,6 +29,9 @@ function CamperDetailsPage() {
 
       {!loading && camper && (
         <main className="camper-details-page">
+          <Link className="back-to-catalog" to="/catalog">
+            Back to catalog
+          </Link>
           <section className="camper-details-layout">
             <div className="details-main">
               <img
@@ -69,6 +73,12 @@ function CamperDetailsPage() {
                   <span>{camper.engine}</span>
                   {camper.kitchen && <span>Kitchen</span>}
                   {camper.radio && <span>Radio</span>}
+                  {camper.bathroom && <span>Bathroom</span>}
+                  {camper.TV && <span>TV</span>}
+                  {camper.refrigerator && <span>Refrigerator</span>}
+                  {camper.microwave && <span>Microwave</span>}
+                  {camper.gas && <span>Gas</span>}
+                  {camper.water && <span>Water</span>}
                   <span>{camper.form}</span>
                 </div>
 
@@ -141,7 +151,7 @@ function CamperDetailsPage() {
                 className="booking-form"
                 onSubmit={(event) => {
                   event.preventDefault();
-                  alert("Booking request sent successfully!");
+                  setIsSubmitted(true);
                 }}
               >
                 <input type="text" name="name" placeholder="Name*" required />
@@ -151,8 +161,10 @@ function CamperDetailsPage() {
                   placeholder="Email*"
                   required
                 />
+                <input type="date" name="bookingDate" required />
                 <button type="submit">Send</button>
               </form>
+              {isSubmitted && <p>Booking request sent successfully!</p>}
             </section>
           </div>
         </main>

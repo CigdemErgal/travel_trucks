@@ -23,6 +23,7 @@
 }
 
 body {
+  min-width: 1440px;
   margin: 0;
   font-family: var(--font-family);
   color: var(--color-main);

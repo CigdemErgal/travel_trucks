@@ -7,23 +7,21 @@ const api = axios.create({
 
 export async function fetchCampers(filters?: CamperFilters): Promise<Camper[]> {
   const params = {
-  location: filters?.location || undefined,
-  form: filters?.form || undefined,
-  engine: filters?.engine || undefined,
-  transmission: filters?.transmission || undefined,
-  AC: filters?.AC ? true : undefined,
-  bathroom: filters?.bathroom ? true : undefined,
-  kitchen: filters?.kitchen ? true : undefined,
-  TV: filters?.TV ? true : undefined,
-  radio: filters?.radio ? true : undefined,
-  refrigerator: filters?.refrigerator ? true : undefined,
-  microwave: filters?.microwave ? true : undefined,
-  gas: filters?.gas ? true : undefined,
-  water: filters?.water ? true : undefined,
-};
+    location: filters?.location || undefined,
+    form: filters?.form || undefined,
+    engine: filters?.engine || undefined,
+    transmission: filters?.transmission || undefined,
+  };
 
-  const response = await api.get<CampersResponse>("/campers", { params });
-  return response.data.items;
+  try {
+    const response = await api.get<CampersResponse>("/campers", { params });
+    return response.data.items;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return [];
+    }
+    throw error;
+  }
 }
 
 export async function fetchCamperById(id: string): Promise<Camper> {

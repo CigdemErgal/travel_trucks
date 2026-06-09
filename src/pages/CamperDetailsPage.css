@@ -252,9 +252,26 @@
 }
 .booking-form input {
   height: 60px;
+  padding: 18px;
   border-radius: 12px;
   background-color: var(--color-inputs);
-  border: none;
+  border: 1px solid transparent;
+  color: var(--color-main);
+  font-size: 16px;
+  line-height: 24px;
+  outline: none;
+}
+.booking-form input:focus {
+  border-color: var(--color-hero-button);
+}
+.booking-form input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+.booking-form input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.75;
+  cursor: pointer;
 }
 .booking-form button {
   height: 56px;
@@ -266,6 +283,7 @@
 .booking-form button:hover {
   background-color: var(--color-hero-button-hover);
 }
+
 .details-bottom {
   display: flex;
   align-items: flex-start;
@@ -275,33 +293,21 @@
   width: 583px;
   flex: 1;
 }
-@media (max-width: 1024px) {
-  .camper-details-page {
-    padding: 32px;
-  }
-
-  .camper-details-layout {
-    grid-template-columns: 1fr;
-  }
-  .details-main-image {
-    width: 100%;
-  }
+.back-to-catalog {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-bottom: 24px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background-color: var(--color-hero-button);
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
 }
-
-@media (max-width: 768px) {
-  .camper-details-page {
-    padding: 24px 16px;
-  }
-
-  .details-main-image {
-    height: 360px;
-  }
-
-  .details-gallery {
-    overflow-x: auto;
-  }
-
-  .details-gallery img {
-    min-width: 136px;
-  }
+.back-to-catalog:hover {
+  background-color: var(--color-hero-button-hover);
 }

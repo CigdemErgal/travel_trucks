@@ -24,13 +24,15 @@ type CampersState = {
   loading: boolean;
   error: string | null;
   filters: CamperFilters;
-  favorites: string[]; 
+  appliedFilters: CamperFilters;
+  favorites: string[];
 };
 const initialState: CampersState = {
   items: [],
   loading: false,
   error: null,
   filters: initialFilters,
+  appliedFilters: initialFilters,
   favorites: JSON.parse(localStorage.getItem("favoriteCampers") || "[]"),
 };
 
@@ -42,47 +44,56 @@ export const fetchCampersThunk = createAsyncThunk(
 );
 
 const campersSlice = createSlice({
-    name: "campers",
-    initialState,
-    reducers: {
-        setFilters(state, action: PayloadAction<CamperFilters>) {
-            state.filters = action.payload;
-        },
-
-        clearFilters(state) {
-            state.filters = initialFilters;
-        },
-
-        toggleFavorite(state, action: PayloadAction<string>) {
-            const camperId = action.payload;
-            const isFavorite = state.favorites.includes(camperId);
-
-            if (isFavorite) {
-                state.favorites = state.favorites.filter(id => id !== camperId);
-            } else {
-                state.favorites.push(camperId);
-            }
-            localStorage.setItem("favoriteCampers", JSON.stringify(state.favorites));
-        },
+  name: "campers",
+  initialState,
+  reducers: {
+    setFilters(state, action: PayloadAction<CamperFilters>) {
+      state.filters = action.payload;
     },
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchCampersThunk.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-                state.items = [];
-            })
-            .addCase(fetchCampersThunk.fulfilled, (state, action: PayloadAction<Camper[]>) => {
-                state.loading = false;
-                state.items = action.payload;
-            })
-            .addCase(fetchCampersThunk.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error.message || "Failed to fetch campers";
-                state.items = [];
-            });
+
+    applyFilters(state) {
+      state.appliedFilters = state.filters;
     },
+
+    clearFilters(state) {
+      state.filters = initialFilters;
+      state.appliedFilters = initialFilters;
+    },
+
+    toggleFavorite(state, action: PayloadAction<string>) {
+      const camperId = action.payload;
+      const isFavorite = state.favorites.includes(camperId);
+
+      if (isFavorite) {
+        state.favorites = state.favorites.filter((id) => id !== camperId);
+      } else {
+        state.favorites.push(camperId);
+      }
+      localStorage.setItem("favoriteCampers", JSON.stringify(state.favorites));
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCampersThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.items = [];
+      })
+      .addCase(
+        fetchCampersThunk.fulfilled,
+        (state, action: PayloadAction<Camper[]>) => {
+          state.loading = false;
+          state.items = action.payload;
+        },
+      )
+      .addCase(fetchCampersThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch campers";
+        state.items = [];
+      });
+  },
 });
 
-export const { setFilters, clearFilters, toggleFavorite } = campersSlice.actions;
+export const { setFilters, applyFilters, clearFilters, toggleFavorite } =
+  campersSlice.actions;
 export default campersSlice.reducer;

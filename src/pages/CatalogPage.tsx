@@ -8,48 +8,46 @@ import {
   fetchCampersThunk,
   setFilters,
   toggleFavorite,
+  applyFilters,
 } from "../redux/campersSlice";
 import type { AppDispatch, RootState } from "../redux/store";
 import "./CatalogPage.css";
+import EmptyCatalogState from "../components/EmptyCatalogState";
 
 function CatalogPage() {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { items, loading, error, filters, favorites } = useSelector(
-    (state: RootState) => state.campers,
-  );
+  const { items, loading, error, filters, appliedFilters, favorites } =
+    useSelector((state: RootState) => state.campers);
 
   const [visibleCount, setVisibleCount] = useState(4);
 
+  const filteredItems = items.filter((camper) => {
+    if (appliedFilters.AC && !camper.AC) return false;
+    if (appliedFilters.bathroom && !camper.bathroom) return false;
+    if (appliedFilters.kitchen && !camper.kitchen) return false;
+    if (appliedFilters.TV && !camper.TV) return false;
+    if (appliedFilters.radio && !camper.radio) return false;
+    if (appliedFilters.refrigerator && !camper.refrigerator) return false;
+    if (appliedFilters.microwave && !camper.microwave) return false;
+    if (appliedFilters.gas && !camper.gas) return false;
+    if (appliedFilters.water && !camper.water) return false;
+
+    return true;
+  });
+
   useEffect(() => {
-    dispatch(fetchCampersThunk(filters));
-  }, [dispatch]);
+    dispatch(fetchCampersThunk(appliedFilters));
+  }, [dispatch, appliedFilters]);
 
   const handleSearch = () => {
     setVisibleCount(4);
-    dispatch(fetchCampersThunk(filters));
+    dispatch(applyFilters());
   };
 
   const handleClearFilters = () => {
     dispatch(clearFilters());
     setVisibleCount(4);
-    dispatch(
-      fetchCampersThunk({
-        location: "",
-        form: "",
-        engine: "",
-        transmission: "",
-        AC: false,
-        bathroom: false,
-        kitchen: false,
-        TV: false,
-        radio: false,
-        refrigerator: false,
-        microwave: false,
-        gas: false,
-        water: false,
-      }),
-    );
   };
 
   return (
@@ -65,9 +63,11 @@ function CatalogPage() {
         <div className="catalog-content">
           {loading && <p>Loading...</p>}
           {error && <p className="catalog-error">{error}</p>}
-
+          {!loading && !error && filteredItems.length === 0 && (
+            <EmptyCatalogState onBackToFullCatalog={handleClearFilters} />
+          )}
           {!loading &&
-            items
+            filteredItems
               .slice(0, visibleCount)
               .map((camper) => (
                 <CamperCard
@@ -96,7 +96,7 @@ function CatalogPage() {
                   onToggleFavorite={() => dispatch(toggleFavorite(camper.id))}
                 />
               ))}
-          {!loading && visibleCount < items.length && (
+          {!loading && visibleCount < filteredItems.length && (
             <button
               className="load-more-button"
               onClick={() => setVisibleCount((prev) => prev + 4)}

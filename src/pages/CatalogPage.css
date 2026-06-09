@@ -7,10 +7,12 @@
 }
 
 .catalog-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
+
 .load-more-button {
   width: 145px;
   height: 56px;
@@ -30,13 +32,4 @@
 .load-more-button:hover {
   background-color: var(--color-filter-bg);
   border-color: var(--color-hero-button-hover);
-}
-@media (max-width: 768px) {
-  .catalog-layout {
-    flex-direction: column;
-    gap: 32px;
-  }
-  .filters-panel {
-    width: 100%;
-  }
 }
